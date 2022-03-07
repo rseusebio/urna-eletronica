@@ -10,7 +10,12 @@ function ajax(url, method, callback) {
   request.send(null);
 }
 
-
+/**
+ * Faz uma chamada POST /vote/v_id/p_id para
+ * salvar o voto do eleitor
+ * @param {number} vereadorId - Identificador do vereador
+ * @param {number} prefeitoId  - Identificador do vereador
+ */
 function vote(vereadorId, prefeitoId) {
   console.log("location: ", window.location.href);
 
