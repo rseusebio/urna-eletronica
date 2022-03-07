@@ -1,6 +1,6 @@
 <?php
 require "./start.php";
-use Src\Post;
+use Src\Vote;
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -11,27 +11,20 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode( '/', $uri );
 
-// endpoints starting with `/post` or `/posts` for GET shows all posts
+// endpoints starting with `/vote`
 // everything else results in a 404 Not Found
-if ($uri[1] !== 'post') {
-  if($uri[1] !== 'posts'){
+if ($uri[1] !== 'vote') {
     header("HTTP/1.1 404 Not Found");
     exit();
-  }
 }
 
-// // endpoints starting with `/posts` for POST/PUT/DELETE results in a 404 Not Found
-// if ($uri[1] == 'posts' and isset($uri[2])) {
-//     header("HTTP/1.1 404 Not Found");
-//     exit();
-// }
-
-// the post id is, of course, optional and must be a number
+// Pegando o id do vereador
 $vereadorId = null;
 if (isset($uri[2])) {
     $vereadorId = (int) $uri[2];
 }
 
+// Pegando o id do prefeito
 $prefeitoId = null;
 if (isset($uri[3])) {
     $prefeitoId = (int) $uri[3];
@@ -39,6 +32,5 @@ if (isset($uri[3])) {
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 
-// pass the request method and post ID to the Post and process the HTTP request:
-$controller = new Post($dbConnection, $requestMethod, $vereadorId, $prefeitoId);
+$controller = new Vote($dbConnection, $requestMethod, $vereadorId, $prefeitoId);
 $controller->processRequest();

@@ -13,25 +13,15 @@ class Database {
     $user = $_ENV['DB_USERNAME'];
     $pass = $_ENV['DB_PASSWORD'];
 
-    // print $host . ' ' . $port . ' ' . $db . ' ' . $user . ' ' . $pass . "\n";
-
     try {
-      $this->dbConnection = new \PDO("mysql:host=$host;port=$port;dbname=$db", $user, $pass);
-
-      $this->dbConnection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
       
-      // $this->dbConnection = mysqli_connect($host, $user, $pass, $db, $port);
-      // if (!$this->dbConnection) 
-      // {
-      //   print "error: " . mysqli_connect_error() . "\n";
-      // }
-
-      // print "everything ok\n";
+      $this->dbConnection = new \PDO("mysql:host=$host;port=$port;dbname=$db", $user, $pass);
+      $this->dbConnection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
     } catch (\PDOException $e) {
-      // exit($e->getMessage());
 
       print "Something wrong with connection" . " " . $e->getMessage() . " " . $e->getTraceAsString() . "\n";
+
     }
   }
 
