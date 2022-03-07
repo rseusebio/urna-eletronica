@@ -66,7 +66,7 @@ const handleButton = (route) => {
  * ou abrí-la novamente.
  * @returns Um elemento JSX
  */
-function Form() {
+export default function Form() {
     const style = {
         minHeight: "300px",
         backgroundColor: "#e7ebf0",
@@ -107,5 +107,3 @@ function Form() {
         </div>
     )
 }
-
-export default Form;

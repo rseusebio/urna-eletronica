@@ -1,4 +1,3 @@
-import './App.css';
 import Table from "./Table";
 import Form from "./Button";
 
@@ -9,7 +8,7 @@ import Form from "./Button";
  * @constructor
  * @returns - Um elemento JSX
  */
-function App() {
+export default function App() {
   return (
     <div className="App">
       <div>
@@ -25,5 +24,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

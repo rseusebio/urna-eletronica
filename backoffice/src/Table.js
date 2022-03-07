@@ -58,7 +58,7 @@ function PoliticoTabela(props) {
  * @constructor
  * @returns - Um elemento JSX
  */
-function Tabelas() {
+export default function Tabelas() {
     const [error, setError] = useState(null);
     const [items, setItems] = useState(null);
 
@@ -123,5 +123,3 @@ function Tabelas() {
         );
     }
 }
-
-export default Tabelas;
