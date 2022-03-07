@@ -4,12 +4,12 @@
         "numeros": 5,
         "candidatos": {
             "51222": {
-                "nome": "Christianne Varão",
+                "nome": "Christianne Varao",
                 "partido": "PEN",
                 "foto": "cv1.jpg"
             },
             "55555": {
-                "nome": "Homero do Zé Filho",
+                "nome": "Homero do Ze Filho",
                 "partido": "PSL",
                 "foto": "cv2.jpg"
             },
@@ -24,7 +24,7 @@
                 "foto": "cv4.jpg"
             },
             "27222": {
-                "nome": "Joel Varão",
+                "nome": "Joel Varao",
                 "partido": "PSDC",
                 "foto": "cv5.jpg"
             },
@@ -70,7 +70,7 @@
                 }
             },
             "54": {
-                "nome": "Zé Lopes",
+                "nome": "Ze Lopes",
                 "partido": "PPL",
                 "foto": "cp4.jpg",
                 "vice": {
@@ -84,7 +84,7 @@
                 "partido": "PC do B",
                 "foto": "cp5.jpg",
                 "vice": {
-                    "nome": "Malú",
+                    "nome": "Malu",
                     "partido": "PC do B",
                     "foto": "v5.jpg"
                 }
