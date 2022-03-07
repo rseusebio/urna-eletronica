@@ -3,13 +3,19 @@ import { Button } from "@mui/material";
 import axios from "axios";
 import { getURL } from './utils';
 
+/**
+ * Representa o status da eleicao
+ * pode ser aberta ou fechada
+ * @constructor
+ * @returns Um elemento JSX
+ */
 function StatusEleicao() {
     const [error, setError] = useState(null);
     const [items, setItems] = useState(null);
 
-    const url = getURL() + "/status";
-
     useEffect(() => {
+        const url = getURL() + "/status";
+
         axios.get(url, { validateStatus: _ => true })
             .then(
                 (result) => {
@@ -35,6 +41,12 @@ function StatusEleicao() {
     )
 }
 
+/**
+ * Retona uma função que chama um endpoint
+ * depois que o endpoint é chamado a página é atualizada
+ * @param {string} route - a rota para o endpoint
+ * @returns - função assincrona que chama o endpoint passado
+ */
 const handleButton = (route) => {
     const f = async () => {
         axios.get(getURL() + route, { validateStatus: _ => true })
@@ -48,7 +60,12 @@ const handleButton = (route) => {
     return f;
 }
 
-
+/**
+ * Formulário com os botões de controle da eleicao
+ * Os botões são de zerar a eleicao, encerrá-la 
+ * ou abrí-la novamente.
+ * @returns Um elemento JSX
+ */
 function Form() {
     const style = {
         minHeight: "300px",

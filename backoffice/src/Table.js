@@ -10,10 +10,14 @@ import Paper from '@mui/material/Paper';
 import axios from "axios";
 import { getURL } from './utils';
 
-
+/**
+ * Retorna uma tabela dos status das eleicoes (ID, Nome, Partido e Votos)
+ * Ordenado por votos
+ * @constructor
+ * @param {object} props - recebi os dados dos politicos (vereador ou prefeito)
+ * @returns - Um elemento JSX
+ */
 function PoliticoTabela(props) {
-
-    console.log("prefeitos: ", props);
     const { data } = props;
 
     return (
@@ -32,8 +36,7 @@ function PoliticoTabela(props) {
                     {data.map((row) => (
                         <TableRow
                             key={row.ID}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
+                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                             <TableCell component="th" scope="row">
                                 {row.ID}
                             </TableCell>
@@ -49,15 +52,19 @@ function PoliticoTabela(props) {
     );
 }
 
-function Tabelas(params) {
-
+/**
+ * Retorna a tabela de prefeitos e vereadores
+ * Ordenado por votos
+ * @constructor
+ * @returns - Um elemento JSX
+ */
+function Tabelas() {
     const [error, setError] = useState(null);
-    // const [isLoaded, setIsLoaded] = useState(false);
     const [items, setItems] = useState(null);
 
-    const url = getURL() + "/vote";
-
     useEffect(() => {
+        const url = getURL() + "/vote";
+
         axios.get(url, { validateStatus: _ => true })
             .then(
                 (result) => {

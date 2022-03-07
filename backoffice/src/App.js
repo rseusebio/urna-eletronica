@@ -2,6 +2,13 @@ import './App.css';
 import Table from "./Table";
 import Form from "./Button";
 
+/**
+ * Pagina Principal do backoffice
+ * contem as tabelas e o form com os botões
+ * de controle da eleicao
+ * @constructor
+ * @returns - Um elemento JSX
+ */
 function App() {
   return (
     <div className="App">
