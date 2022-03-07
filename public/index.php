@@ -11,6 +11,9 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode( '/', $uri );
 
+/**
+ * Processa todas as chamadas com /vote
+ */
 if ($uri[1] == 'vote') {
     // Pegando o id do vereador
     $vereadorId = null;
@@ -29,10 +32,18 @@ if ($uri[1] == 'vote') {
     $controller = new Vote($dbConnection, $requestMethod, $vereadorId, $prefeitoId);
     $controller->processRequest();
 }
+/**
+ * Processa as chamadas
+ * com rotas /open, /close, /reset e /status
+ */
 else if ($uri[1] == 'open' || $uri[1] == 'close' || $uri[1] == 'reset' || $uri[1] == 'status') {
     $controller = new Vote($dbConnection, $requestMethod, $vereadorId, $prefeitoId);
     $controller->processOtherRoutes($uri[1]);
 }
+/**
+ * Retorna 404 not found para
+ * todas as outras rotas
+ */
 else {
     header("HTTP/1.1 404 Not Found");
     exit();

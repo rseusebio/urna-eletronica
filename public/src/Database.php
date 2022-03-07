@@ -1,6 +1,10 @@
 <?php
 namespace Src;
 
+/**
+ * Classe responsavel por fazer 
+ * a conexao com o banco de dados.
+ */
 class Database {
 
   private $dbConnection = null;

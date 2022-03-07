@@ -1,6 +1,11 @@
 <?php
 namespace Src;
 
+/**
+ * Função monolítica 
+ * responsável por fazer 
+ * todo o processamento do backend.
+ */
 class Vote {
   private $db;
   private $requestMethod;
@@ -15,6 +20,10 @@ class Vote {
     $this->prefeitoId = $prefeitoId;
   }
 
+  /**
+   * Processa as chamadas para 
+   * a rota /vote
+   */
   public function processRequest()
   {
     switch ($this->requestMethod) {
@@ -39,6 +48,10 @@ class Vote {
     }
   }
 
+  /**
+   * Processa todas as outras rotas:
+   * /reset, /open, /close e /status
+   */
   public function processOtherRoutes($route) {
     switch ($route) {
       case 'reset':
@@ -65,6 +78,10 @@ class Vote {
     }
   }
 
+  /**
+   * Consulta o status da eleicao
+   * se esta aberta ou nao
+   */
   private function getStatus() {
     $query = "SELECT * FROM Eleicao WHERE ID = 0;";
 
@@ -76,6 +93,10 @@ class Vote {
     return $eleicao['Status'] >= 1;
   }
 
+  /**
+   * retorna status e texto sobre
+   * o estado da eleicao
+   */
   private function getElectionStatus() {
     $status = $this->getStatus();
 
@@ -90,6 +111,10 @@ class Vote {
     return $response;
   }
 
+  /**
+   * Atualiza o status da eleicao
+   * abrindo-a ou fechando-a.
+   */
   private function updateElectionStatus($status) {
     $update = "UPDATE Eleicao SET Status = :status  WHERE ID = 0;";
 
@@ -108,6 +133,10 @@ class Vote {
     return $response;
   }
 
+  /**
+   * retorna todos os resultados atuais
+   * dos prefeitos e vereadores
+   */
   private function getAllVotes()
   {
     $query = "SELECT * FROM Politicos WHERE Titulo = 'prefeito' ORDER BY Votos DESC;";
@@ -129,6 +158,10 @@ class Vote {
     return $response;
   }
 
+  /**
+   * Retorna um politico 
+   * de um determinado ID e ocupacao: (prefeito ou vereador)
+   */
   private function getPolitician($id, $title) 
   {
     $query = "SELECT * FROM Politicos WHERE ID = :id AND Titulo = :titulo;";
@@ -141,6 +174,11 @@ class Vote {
     return $politician;
   }
 
+  /**
+   * Adiciona o voto de um usuario
+   * em um politico.
+   * 
+   */
   private function updateVote($id, $vote, $title) 
   {
     $update = "UPDATE Politicos SET Votos = :vote WHERE ID = :id and Titulo = :titulo;";
@@ -152,8 +190,13 @@ class Vote {
     return $stmt->rowCount();
   }
 
-  private function insertVote($id, $title)
- {
+  /**
+   * Incrementa em uma unidade
+   * os votos de um politicos
+   * se não encontrar o politico
+   * acrescenta nos votos nulos
+   */
+  private function insertVote($id, $title) {
     $politician = $this->getPolitician($id, $title);
 
     // se não encontrar o politico
@@ -174,6 +217,9 @@ class Vote {
     );
   }
 
+  /**
+   * Handler para salvar os votos de um usuario
+   */
   public function postHandler($vereador_id, $prefeito_id) {
       $status = $this->getStatus();
 
@@ -199,6 +245,10 @@ class Vote {
       return $response;
   }
 
+  /**
+   * Funcao que limpa o retorno do mysql
+   * do objeto de um politico.
+   */
   private function cleanObject($obj) {
     unset($obj["0"]);
     unset($obj["1"]);
@@ -211,6 +261,11 @@ class Vote {
     return $obj;
   }
 
+  /**
+   * Funcao que reseta todos
+   * os votos de todos os politicos
+   * para zero.
+   */
   private function resetAll() {
     $update = "UPDATE Politicos SET Votos=0 WHERE ID <> -999;";
 
@@ -228,6 +283,9 @@ class Vote {
     return $response;
   }
 
+  /**
+   * funcao que retorna 404
+   */
   private function notFoundResponse() {
     $response['status_code_header'] = 'HTTP/1.1 404 Not Found';
     $response['body'] = null;
