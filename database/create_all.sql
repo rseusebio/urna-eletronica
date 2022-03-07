@@ -11,3 +11,5 @@ INSERT INTO Politicos (ID, titulo, Nome, Partido, Foto, Votos) VALUES (15, 'pref
 INSERT INTO Politicos (ID, titulo, Nome, Partido, Foto, Votos) VALUES (45, 'prefeito', 'Dr. Francisco', 'PSC', 'cp1.jpg', 0);
 INSERT INTO Politicos (ID, titulo, Nome, Partido, Foto, Votos) VALUES (54, 'prefeito', 'Zé Lopes', 'PPL', 'cp4.jpg', 0);
 INSERT INTO Politicos (ID, titulo, Nome, Partido, Foto, Votos) VALUES (65, 'prefeito', 'Lindomar Pescador', 'PC do B', 'cp5.jpg', 0);
+alter user 'MYSQL_USER'@'%' identified with mysql_native_password by 'MYSQL_PASSWORD';
+-- mysql -uroot -pMYSQL_ROOT_PASSWORD -e "alter user 'MYSQL_USER'@'%' identified with mysql_native_password by 'MYSQL_PASSWORD';"

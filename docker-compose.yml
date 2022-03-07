@@ -10,7 +10,7 @@ services:
       - "./webserver/nginx.conf:/etc/nginx/nginx.conf"
     links:
       - php
-      - database
+      # - mysql_db
   php:
     build:
       context: .
@@ -24,21 +24,26 @@ services:
     # links:
       # - mysql
     depends_on:
-      - database
-  database:
-    container_name: database
+      - mysql_db
+  mysql_db:
+    container_name: mysql_db
     build:
       context: ./database
       dockerfile: Dockerfile
     restart: always
     ports:
-      - "3307:3306"
+      - "9906:3306"
     # volumes:
     #   - mysql:/var/lib/mysql/
     environment:
       MYSQL_DATABASE: 'MYSQL_DATABASE'
-      MYSQL_USER: 'MYSQL_USER'
-      MYSQL_PASSWORD: 'MYSQL_PASSWORD'
+      # MYSQL_USER: 'MYSQL_USER'
+      # MYSQL_PASSWORD: 'MYSQL_PASSWORD'
       MYSQL_ROOT_PASSWORD: 'MYSQL_ROOT_PASSWORD'
+    command: --default-authentication-plugin=mysql_native_password
+    # command:
+    #   - /bin/bash
+    #   - -c 
+    # #   - mysql -uroot -pMYSQL_ROOT_PASSWORD -e "alter user 'MYSQL_USER'@'%' identified with mysql_native_password by 'MYSQL_PASSWORD';"
 # volumes:
 #   mysql:
