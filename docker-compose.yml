@@ -18,6 +18,14 @@ services:
       - "8081:80"
     volumes:
       - "./frontend:/usr/share/nginx/html"
+  
+  nginx_3:
+    image: nginx:1.17.3
+    container_name: nginx_3
+    ports:
+      - "8082:80"
+    volumes:
+      - "./backoffice/build:/usr/share/nginx/html"
 
   php:
     build:

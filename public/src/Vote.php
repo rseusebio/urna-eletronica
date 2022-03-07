@@ -39,13 +39,82 @@ class Vote {
     }
   }
 
+  public function processOtherRoutes($route) {
+    switch ($route) {
+      case 'reset':
+        $response = $this->resetAll();
+        break;
+      case 'open':
+        $response = $this->updateElectionStatus('1');
+        break;
+      case 'close':
+        $response = $this->updateElectionStatus('0');
+        break;
+      case 'status':
+        $response = $this->getElectionStatus();
+        break;
+      default:
+        $response = $this->notFoundResponse();
+        break;
+    }
+
+    header($response['status_code_header']);
+
+    if ($response['body']) {
+      echo $response['body'];
+    }
+  }
+
+  private function getStatus() {
+    $query = "SELECT * FROM Eleicao WHERE ID = 0;";
+
+    $stmt = $this->db->prepare($query);
+    $stmt->execute();
+
+    $eleicao = $stmt->fetch();
+
+    return $eleicao['Status'] >= 1;
+  }
+
+  private function getElectionStatus() {
+    $status = $this->getStatus();
+
+    $result = array(
+      'status' => $status,
+      'text' => $status ? "Aberta" : "Fechada"
+    );
+
+    $response['status_code_header'] = 'HTTP/1.1 200 OK';
+    $response['body'] = json_encode($result);
+
+    return $response;
+  }
+
+  private function updateElectionStatus($status) {
+    $update = "UPDATE Eleicao SET Status = :status  WHERE ID = 0;";
+
+    $stmt = $this->db->prepare($update);
+
+    $stmt->execute(array('status' => $status));
+
+    $result = array(
+      'status' => $status,
+      'text' => $status ? "Aberta" : "Fechada"
+    );
+
+    $response['status_code_header'] = 'HTTP/1.1 200 OK';
+    $response['body'] = json_encode($result);
+
+    return $response;
+  }
+
   private function getAllVotes()
   {
-    $query = "SELECT * FROM Politicos WHERE Titulo = 'prefeito';";
+    $query = "SELECT * FROM Politicos WHERE Titulo = 'prefeito' ORDER BY Votos DESC;";
     $statement = $this->db->query($query);
     $prefeitos = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
-    $query = "SELECT * FROM Politicos WHERE Titulo  ='vereador';";
+    $query = "SELECT * FROM Politicos WHERE Titulo  ='vereador' ORDER BY Votos DESC;";
     $statement = $this->db->query($query);
     $vereadores = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -87,8 +156,11 @@ class Vote {
  {
     $politician = $this->getPolitician($id, $title);
 
+    // se não encontrar o politico
+    // anule o voto
     if (!$politician) {
-      return array("message" => "Couldn't find a politician with ID " . $id, "success" => false );
+      $id = -1; 
+      $politician = $this->getPolitician($id, $title);
     }
 
     $vote = 1 + (int) $politician['Votos'];
@@ -102,8 +174,20 @@ class Vote {
     );
   }
 
-  public function postHandler($vereador_id, $prefeito_id) 
-  {
+  public function postHandler($vereador_id, $prefeito_id) {
+      $status = $this->getStatus();
+
+      if (!$status) {
+        $result = array(
+          'message' => "A eleicao esta encerrada"
+        );
+
+        $response['status_code_header'] = 'HTTP/1.1 200 OK';
+        $response['body'] = json_encode($result);
+
+        return $response;
+      }
+
       $result = array(
         "vereador" => $this->insertVote($vereador_id, "vereador"),
         "prefeito" => $this->insertVote($prefeito_id, "prefeito")
@@ -115,8 +199,7 @@ class Vote {
       return $response;
   }
 
-  private function cleanObject($obj)
-  {
+  private function cleanObject($obj) {
     unset($obj["0"]);
     unset($obj["1"]);
     unset($obj["2"]);
@@ -128,8 +211,7 @@ class Vote {
     return $obj;
   }
 
-  private function resetAll() 
-  {
+  private function resetAll() {
     $update = "UPDATE Politicos SET Votos=0 WHERE ID <> -999;";
 
     $stmt = $this->db->prepare($update);
@@ -138,14 +220,15 @@ class Vote {
 
     $result = array("resetRows" => $stmt->rowCount());
 
+    $this->updateElectionStatus('1');
+
     $response['status_code_header'] = 'HTTP/1.1 200 OK';
     $response['body'] = json_encode($result);
 
     return $response;
   }
 
-  private function notFoundResponse()
-  {
+  private function notFoundResponse() {
     $response['status_code_header'] = 'HTTP/1.1 404 Not Found';
     $response['body'] = null;
     return $response;

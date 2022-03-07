@@ -15,3 +15,5 @@ INSERT INTO Politicos (ID, Titulo, Nome, Partido, Foto, Votos, Vice) VALUES (15,
 INSERT INTO Politicos (ID, Titulo, Nome, Partido, Foto, Votos, Vice) VALUES (45, 'prefeito', 'Dr. Francisco', 'PSC', 'cp1.jpg', 0, '{"nome": "Jo\u00e3o Rodrigues", "partido": "PV", "foto": "v1.jpg"}');
 INSERT INTO Politicos (ID, Titulo, Nome, Partido, Foto, Votos, Vice) VALUES (54, 'prefeito', 'Ze Lopes', 'PPL', 'cp4.jpg', 0, '{"nome": "Francisca Ferreira Ramos", "partido": "PPL", "foto": "v4.jpg"}');
 INSERT INTO Politicos (ID, Titulo, Nome, Partido, Foto, Votos, Vice) VALUES (65, 'prefeito', 'Lindomar Pescador', 'PC do B', 'cp5.jpg', 0, '{"nome": "Malu", "partido": "PC do B", "foto": "v5.jpg"}');
+CREATE TABLE Eleicao (ID INT, Status BOOLEAN);
+INSERT INTO Eleicao (ID, Status) VALUES (0, true);

@@ -30,4 +30,7 @@ if __name__ == "__main__":
         f.write("INSERT INTO Politicos (ID, Titulo, Nome, Partido, Foto, Votos, Vice) VALUES (0, 'vereador', 'BRANCO', '', '', 0, '');\n")
         f.write("INSERT INTO Politicos (ID, Titulo, Nome, Partido, Foto, Votos, Vice) VALUES (-1, 'prefeito', 'NULO', '', '', 0, '');\n")
         f.write("INSERT INTO Politicos (ID, Titulo, Nome, Partido, Foto, Votos, Vice) VALUES (-1, 'vereador', 'NULO', '', '', 0, '');\n")
-        f.write(data)
+        f.write(data + "\n")
+        f.write("CREATE TABLE Eleicao (ID INT, Status BOOLEAN);\n")
+        f.write("INSERT INTO Eleicao (ID, Status) VALUES (0, true);\n")
+        
