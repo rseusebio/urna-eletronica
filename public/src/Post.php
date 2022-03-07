@@ -4,40 +4,39 @@ namespace Src;
 class Post {
   private $db;
   private $requestMethod;
-  private $postId;
+  private $vereadorId;
+  private $prefeitoId;
 
-  public function __construct($db, $requestMethod, $postId)
+  public function __construct($db, $requestMethod, $vereadorId, $prefeitoId)
   {
     $this->db = $db;
     $this->requestMethod = $requestMethod;
-    $this->postId = $postId;
+    $this->vereadorId = $vereadorId;
+    $this->prefeitoId = $prefeitoId;
   }
 
   public function processRequest()
   {
     switch ($this->requestMethod) {
       case 'GET':
-        // if ($this->postId) {
-        //   $response = $this->getPost($this->postId);
-        // } else {
-        //   $response = $this->getAllPosts();
-        // };
-        $response = $this->getTest();
+        $response = $this->getAllVotes();
         break;
       case 'POST':
-        $response = $this->createPost();
+        $response = $this->postHandler($this->vereadorId, $this->prefeitoId);
         break;
       case 'PUT':
-        $response = $this->updatePost($this->postId);
+        $response = $this->updatePost($this->vereadorId);
         break;
       case 'DELETE':
-        $response = $this->deletePost($this->postId);
+        $response = $this->resetAll();
         break;
       default:
         $response = $this->notFoundResponse();
         break;
     }
+
     header($response['status_code_header']);
+
     if ($response['body']) {
       echo $response['body'];
     }
@@ -54,14 +53,9 @@ class Post {
     return $response;
   }
 
-  private function getAllPosts()
+  private function getAllVotes()
   {
-    $query = "
-      SELECT
-        id, title, body, author, author_picture, created_at
-      FROM
-        post;
-    ";
+    $query = "SELECT * FROM Politicos;";
 
     try {
       $statement = $this->db->query($query);
@@ -75,6 +69,101 @@ class Post {
     return $response;
   }
 
+  private function getPolitician($id) 
+  {
+    $query = "SELECT * FROM Politicos WHERE ID = :id;";
+
+    $stmt = $this->db->prepare($query);
+    $stmt->execute(array('id' => (int) $id));
+
+    $politician = $stmt->fetch();
+
+    return $politician;
+  }
+
+  private function updateVote($id, $vote) 
+  {
+    $update = "UPDATE Politicos SET Votos = :vote WHERE ID = :id;";
+
+    $stmt = $this->db->prepare($update);
+
+    $stmt->execute(array( 'vote' => $vote , 'id' => $id));
+
+    return $stmt->rowCount();
+  }
+
+  private function insertVote($id)
+  {
+    $politician = $this->getPolitician($id);
+
+    if (!$politician) 
+    {
+      return array("message" => "Couldn't find a politician with ID " . $id, "success" => false );
+    }
+
+    $vote = 1 + (int) $politician['Votos'];
+
+    $rows = $this->updateVote($id, $vote);
+
+    $new_pol = $this->cleanObject($this->getPolitician($id));
+
+    return array("politician" => $new_pol, "success"=> true);
+  }
+
+  public function postHandler($vereador_id, $prefeito_id) 
+  {
+      $result = array(
+        "vereador" => $this->insertVote($vereador_id),
+        "prefeito" => $this->insertVote($prefeito_id)
+      );
+
+      $response['status_code_header'] = 'HTTP/1.1 200 OK';
+      $response['body'] = json_encode($result);
+
+      return $response;
+  }
+
+  private function cleanObject($obj)
+  {
+    unset($obj["0"]);
+    unset($obj["1"]);
+    unset($obj["2"]);
+    unset($obj["3"]);
+    unset($obj["4"]);
+    unset($obj["5"]);
+
+    return $obj;
+  }
+
+  private function resetAll() 
+  {
+    $update = "UPDATE Politicos SET Votos=0 WHERE ID <> -999;";
+
+    $stmt = $this->db->prepare($update);
+
+    $stmt->execute();
+
+    $result = array("resetRows" => $stmt->rowCount());
+
+    $response['status_code_header'] = 'HTTP/1.1 200 OK';
+    $response['body'] = json_encode($result);
+
+    return $response;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   private function getPost($id)
   {
     $result = $this->find($id);
@@ -82,7 +171,7 @@ class Post {
       return $this->notFoundResponse();
     }
     $response['status_code_header'] = 'HTTP/1.1 200 OK';
-    $response['body'] = json_encode($result);
+    $response['body'] = json_encode([1, 2, 3]);
     return $response;
   }
 

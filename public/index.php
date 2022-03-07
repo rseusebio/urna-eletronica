@@ -20,20 +20,25 @@ if ($uri[1] !== 'post') {
   }
 }
 
-// endpoints starting with `/posts` for POST/PUT/DELETE results in a 404 Not Found
-if ($uri[1] == 'posts' and isset($uri[2])) {
-    header("HTTP/1.1 404 Not Found");
-    exit();
-}
+// // endpoints starting with `/posts` for POST/PUT/DELETE results in a 404 Not Found
+// if ($uri[1] == 'posts' and isset($uri[2])) {
+//     header("HTTP/1.1 404 Not Found");
+//     exit();
+// }
 
 // the post id is, of course, optional and must be a number
-$postId = null;
+$vereadorId = null;
 if (isset($uri[2])) {
-    $postId = (int) $uri[2];
+    $vereadorId = (int) $uri[2];
+}
+
+$prefeitoId = null;
+if (isset($uri[3])) {
+    $prefeitoId = (int) $uri[3];
 }
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 
 // pass the request method and post ID to the Post and process the HTTP request:
-$controller = new Post($dbConnection, $requestMethod, $postId);
+$controller = new Post($dbConnection, $requestMethod, $vereadorId, $prefeitoId);
 $controller->processRequest();
