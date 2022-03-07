@@ -17,7 +17,7 @@ services:
     ports:
       - "8081:80"
     volumes:
-      - "./front:/usr/share/nginx/html"
+      - "./frontend:/usr/share/nginx/html"
 
   php:
     build:
