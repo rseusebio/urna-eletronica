@@ -11,11 +11,11 @@ def read_politics(file_name: str) -> None:
             titulo = v["titulo"]
             canditados = v["candidatos"]
             for id, obj in canditados.items():
-                print(id, obj)
-                insert_str = """INSERT INTO Politicos (ID, titulo, Nome, Partido, Foto, Votos) VALUES ({0}, '{1}', '{2}', '{3}', '{4}', {5});"""\
-                .format(id, titulo, obj["nome"], obj["partido"], obj["foto"], "0")\
+                vice = obj["vice"] if "vice" in obj.keys() else {}
+                insert_str = """INSERT INTO Politicos (ID, titulo, Nome, Partido, Foto, Votos, Vice) VALUES ({0}, '{1}', '{2}', '{3}', '{4}', {5}, '{6}');"""\
+                    .format(id, titulo, obj["nome"], obj["partido"], obj["foto"], "0", json.dumps(vice))\
                     .strip()\
-                        .strip('\n')
+                    .strip('\n')
 
                 strs.append(insert_str)
     
@@ -25,5 +25,7 @@ if __name__ == "__main__":
     with open(os.path.abspath("./create_all.sql"), "w") as f:
         data = read_politics(os.path.abspath("./politicos.json"))
         f.write("use MYSQL_DATABASE;\n")
-        f.write("CREATE TABLE Politicos (ID int, titulo varchar(255), Nome varchar(255), Partido varchar(255), Foto varchar(255), Votos int);\n")
+        f.write("CREATE TABLE Politicos (ID INT, titulo VARCHAR(255), Nome VARCHAR(255), Partido VARCHAR(255), Foto VARCHAR(255), Votos INT, Vice LONGTEXT);\n")
+        f.write("INSERT INTO Politicos (ID, titulo, Nome, Partido, Foto, Votos, Vice) VALUES (0, 'prefeito', 'NULO', '', '', 0, '');\n")
+        f.write("INSERT INTO Politicos (ID, titulo, Nome, Partido, Foto, Votos, Vice) VALUES (0, 'vereador', 'NULO', '', '', 0, '');\n")
         f.write(data)
