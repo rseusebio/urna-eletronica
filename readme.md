@@ -62,6 +62,7 @@ O serviços estarão disponíveis na seguinte porta:
 
  - O codigo de inicialização do banco de dados pode ser encontrado `database/create_all.sql`
  - Foi criado um script em python para criar o sql de inicialização:  `database/my_script.py`
+  
 ## Documentacao da API
 
 ### Pega o status da eleicao
