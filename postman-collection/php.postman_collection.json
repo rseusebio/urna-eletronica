@@ -1,0 +1,283 @@
+{
+	"info": {
+		"_postman_id": "420168c9-88ef-4231-bf3f-8a0f7972a37c",
+		"name": "php",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost",
+			"item": [
+				{
+					"name": "/status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/open",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/open",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"open"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/close",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/close",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"close"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/vote",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost/vote",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"vote"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/vote",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/vote/:v_id/:p_id",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vote",
+								":v_id",
+								":p_id"
+							],
+							"variable": [
+								{
+									"key": "v_id",
+									"value": "51222"
+								},
+								{
+									"key": "p_id",
+									"value": "65"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/reset",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/reset",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"reset"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "production",
+			"item": [
+				{
+					"name": "/status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://3.83.161.213:8080/status",
+							"protocol": "http",
+							"host": [
+								"3",
+								"83",
+								"161",
+								"213"
+							],
+							"port": "8080",
+							"path": [
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/open",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://3.83.161.213:8080/open",
+							"protocol": "http",
+							"host": [
+								"3",
+								"83",
+								"161",
+								"213"
+							],
+							"port": "8080",
+							"path": [
+								"open"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/close",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://3.83.161.213:8080/close",
+							"protocol": "http",
+							"host": [
+								"3",
+								"83",
+								"161",
+								"213"
+							],
+							"port": "8080",
+							"path": [
+								"close"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/vote",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://3.83.161.213:8080/vote",
+							"protocol": "http",
+							"host": [
+								"3",
+								"83",
+								"161",
+								"213"
+							],
+							"port": "8080",
+							"path": [
+								"vote"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/vote",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://3.83.161.213:8080/vote/:v_id/:p_id",
+							"protocol": "http",
+							"host": [
+								"3",
+								"83",
+								"161",
+								"213"
+							],
+							"port": "8080",
+							"path": [
+								"vote",
+								":v_id",
+								":p_id"
+							],
+							"variable": [
+								{
+									"key": "v_id",
+									"value": "51222"
+								},
+								{
+									"key": "p_id",
+									"value": "65"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/reset",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://3.83.161.213:8080/reset",
+							"protocol": "http",
+							"host": [
+								"3",
+								"83",
+								"161",
+								"213"
+							],
+							"port": "8080",
+							"path": [
+								"reset"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
