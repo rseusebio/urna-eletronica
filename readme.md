@@ -7,6 +7,7 @@ Simulação simples de uma urna eletrônica.
 - [Servidor PHP](#Servidor-PHP)
 - [Frontend da Urna](#Frontend-da-Urna)
 - [Backoffice Resultado da eleicao](#Backoffice-Resultado-da-eleicao)
+- [Banco de dados](#Banco-de-dados)
 - [Documentacao da API](#Documentacao-da-API)
 
 ## Como executar localmente
@@ -25,16 +26,21 @@ docker-compose down
 ```
 
 O serviços estarão disponíveis na seguinte porta:
- - servidor PHP : localhost:8080/vote
- - Front da urna : localhost:8081
- - backoffice da eleicao : localhost:8082
+ - servidor PHP : `http://localhost:8080`
+ - Front da urna : `http://localhost:8081`
+ - backoffice da eleicao : `http://localhost:8082`
+
+É possível acessá-los remotamente nos seguintes links:
+ - servidor PHP : `http://3.83.161.213:8080/`
+ - Front da urna : `http://3.83.161.213:8081/`
+ - backoffice da eleicao : `http://3.83.161.213:8082/`
   
 ## Servidor PHP
 
- - O codigo se encontra dentro da pasta public/
- - na pasta public/src/ temos dois arquivos:
-   - Database.php (com a função de acesso ao database)
-   - Vote.php (com a função de processamento das chamadas ao serviço)
+ - O codigo se encontra dentro da pasta `public/`
+ - na pasta `public/src/` temos dois arquivos:
+   - `Database.php` (com a função de acesso ao database)
+   - `Vote.php` (com a função de processamento das chamadas ao serviço)
 
 
 ## Frontend da Urna
@@ -51,7 +57,11 @@ O serviços estarão disponíveis na seguinte porta:
  - O build foi feito localmente e está na pasta  `backoffice/build`.
  - Para executar fora do ambiente docker é preciso instalar o node e npm e fazer:
    -   `npm install` seguindo de `npm start`.
-   -   
+
+## Banco de dados
+
+ - O codigo de inicialização do banco de dados pode ser encontrado `database/create_all.sql`
+ - Foi criado um script em python para criar o sql de inicialização:  `database/my_script.py`
 ## Documentacao da API
 
 ### Pega o status da eleicao
